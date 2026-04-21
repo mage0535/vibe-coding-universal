@@ -34,7 +34,7 @@ This tool forces AI to **interview you (7 rounds)** before coding, generating a 
 
 ## ✨ 核心亮点 (Features)
 
-- 🧠 **全平台通用**: 兼容 Claude Code, Codex, Cursor, ChatGPT, Gemini, Qwen。
+- 🧠 **全平台通用**: 兼容 Claude Code, Codex, Cursor, Opencode,Openclaw，Hermes
 - 🚫 **零入侵设计**: 绝不修改你的项目文件，只在 `.vibe/` 目录工作。
 - 🔄 **记忆进化**: 自动记录客户偏好，越用越懂你。
 - 📝 **一键导出**: 自动生成 Claude Code 标准的 `memory-bank/` 和 `AGENTS.md`。
