@@ -1,0 +1,6 @@
+
+# Vibe Analyzer
+.vibe/
+memory-bank/
+AGENTS.md
+__pycache__/
