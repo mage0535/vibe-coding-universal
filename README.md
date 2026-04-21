@@ -58,6 +58,18 @@ This tool forces AI to **interview you (7 rounds)** before coding, generating a 
 └── README.md             # 🏠 首页简介
 ```
 
+<div align="center">
+
+# 🤖 Hermes 自动总结与建议
+
+![Hermes 总结建议](assets/hermes_summary.jpg)
+
+> **来源**: 此图由 **Hermes Agent**  生成。
+> **内容**: 对 `vibe-coding-universal` 项目的架构分析、优化建议及未来演进路线图。
+> **状态**: ✅ 已确认，可作为开发参考标准。
+
+</div>
+
 ## 🙏 致谢 (Acknowledgements)
 
 本项目灵感来源于以下优秀的开源项目，并在此基础上进行了通用化和自动化优化：
