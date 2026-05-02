@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.0.0-blue?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge">
   <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge">
 </p>
 
-<h1 align="center">🚀 Vibe Coding Universal v3.0</h1>
+<h1 align="center">🚀 Vibe Coding Universal v2.0</h1>
 
 <p align="center">
   <strong>From vague idea → precise design spec → executable build plan.<br>
@@ -22,11 +22,11 @@
 
 ---
 
-## ✨ What's New in v3.0
+## ✨ What's New in v2.0
 
-v2.0 handled requirements survey and a basic guide. v3.0 is an **architecture-level upgrade**:
+v2.0 handled requirements survey and a basic guide. v2.0 is an **architecture-level upgrade**:
 
-| v2.0 (old) | v3.0 (new) |
+| v2.0 (old) | v2.0 (new) |
 |-----------|-----------|
 | 7 requirement questions | 7 requirement questions + **7 design preference questions** |
 | No design spec | **Full DESIGN_SPEC.md** (10 sections: colors, typography, components, layout, shadows, responsive) |
@@ -88,7 +88,7 @@ Step 6: Merge & Output ──→ specs/ directory (Build Spec package)
 
 ### Step 2: Design Clarification Protocol
 
-v3.0's core innovation. Structured Q&A replaces open-ended questions:
+v2.0's core innovation. Structured Q&A replaces open-ended questions:
 
 | Round | Dimension | Example | Options |
 |-------|-----------|---------|---------|
@@ -281,7 +281,7 @@ This project stands on the shoulders of these open-source giants:
 
 ```
 vibe-coding-universal/
-├── SKILL.md                     ← Core file (v3.0 unified entry)
+├── SKILL.md                     ← Core file (v2.0 unified entry)
 ├── README.md                    ← This file
 ├── CHANGELOG.md                 ← Version history
 ├── v1/                          ← Archived old versions (v2.0 and earlier)

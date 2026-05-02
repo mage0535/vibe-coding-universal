@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.0.0-blue?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge">
   <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge">
 </p>
 
-<h1 align="center">🚀 Vibe Coding Universal v3.0</h1>
+<h1 align="center">🚀 Vibe Coding Universal v2.0</h1>
 
 <p align="center">
   <strong>从模糊想法到精确设计规范 + 可执行代码方案 — 全流程 pipeline。</strong><br>
@@ -22,11 +22,11 @@
 
 ---
 
-## ✨ What's New in v3.0
+## ✨ What's New in v2.0
 
-v2.0 只做需求调研和开发指导书。v3.0 是一次**架构级升级**：
+v2.0 只做需求调研和开发指导书。v2.0 是一次**架构级升级**：
 
-| v2.0 (旧) | v3.0 (新) |
+| v2.0 (旧) | v2.0 (新) |
 |-----------|-----------|
 | 7 轮需求澄清 | 7 轮需求澄清 + **7轮设计偏好澄清** |
 | 无设计规范 | **完整 DESIGN_SPEC.md**（10段: 色彩/字体/组件/布局/阴影/响应式） |
@@ -88,7 +88,7 @@ Step 6: 合并输出 ─────→ specs/ 目录（Build Spec 包）
 
 ### Step 2: 设计澄清协议
 
-这是 v3.0 的核心创新。我们用 Structrd Q&A 取代开放式提问：
+这是 v2.0 的核心创新。我们用 Structrd Q&A 取代开放式提问：
 
 | 轮次 | 维度 | 问题示例 | 选项 |
 |------|------|---------|------|
@@ -288,7 +288,7 @@ codex exec "Build according to specs/BUILD_SPEC.md"
 
 ```
 vibe-coding-universal/
-├── SKILL.md                     ← 核心文件（v3.0 统一入口）
+├── SKILL.md                     ← 核心文件（v2.0 统一入口）
 ├── README.md                    ← 本文件
 ├── CHANGELOG.md                 ← 版本更新记录
 ├── v1/                          ← 旧版归档（v2.0 及之前）

@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.0.0 (2026-05-02)
+## v2.0.0 (2026-05-02)
 
 ### Major Architecture Upgrade
 
@@ -33,7 +33,7 @@ The project underwent a complete architectural redesign, expanding from a 4-phas
 
 ---
 
-## v2.0.0 (2026-04-21)
+## v1.0.0 (2026-04-21)
 
 ### Initial Release
 

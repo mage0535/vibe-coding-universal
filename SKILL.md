@@ -1,13 +1,13 @@
 ---
 name: vibe-coding-universal
-version: 3.0.0
+version: 2.0.0
 description: 需求到代码全流程 pipeline — 需求分析 → 7轮设计澄清 → 71套品牌参考生成精确设计规范 → 架构设计 → 任务规划 → 合并为 Build Spec 包交付 vibe coding 工具
 author: Hermes Agent
 compatible_with: [claude-code, codex, cursor, gemini, qwen, copilot, hermes]
 knowledge_base: [awesome-design-md (71 brands), spec-kit (GitHub)]
 ---
 
-# Vibe Coding Universal v3.0
+# Vibe Coding Universal v2.0
 
 **从模糊想法到可执行 Build Spec，6 步全流程 pipeline。**
 

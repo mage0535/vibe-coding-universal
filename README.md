@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-3.0.0-blue?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/AI%20Compatible-All%20Models-green?style=for-the-badge" alt="Compatible">
   <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge" alt="License">
 </p>
 
-<h1 align="center">🚀 Vibe Coding Universal v3.0</h1>
+<h1 align="center">🚀 Vibe Coding Universal v2.0</h1>
 
 <p align="center">
   <strong>从模糊想法到精确设计规范 + 可执行代码方案</strong><br>
@@ -23,7 +23,7 @@
 
 AI coding assistants are great at writing code but terrible at knowing what you want it to **look like**. They default to generic blue-button-white-card layouts that all look the same.
 
-**Vibe Coding Universal v3.0** solves this by adding a **structured design clarification pipeline** before any code is written. It:
+**Vibe Coding Universal v2.0** solves this by adding a **structured design clarification pipeline** before any code is written. It:
 
 1. **Interviews you** about design preferences (7 rounds, one question each)
 2. **Matches your preferences** against 71 real-world brand design systems (Stripe, Linear, Airbnb, Apple…)
@@ -51,9 +51,9 @@ Copy [`SKILL.md`](SKILL.md) content, paste to AI, say:
 
 ---
 
-## What's New in v3.0
+## What's New in v2.0
 
-| Feature | v2.0 | v3.0 |
+| Feature | v2.0 | v2.0 |
 |---------|------|------|
 | Design clarification | ❌ | ✅ 7-round structured dialogue |
 | Design spec generation | ❌ | ✅ Full DESIGN_SPEC with CSS tokens |
