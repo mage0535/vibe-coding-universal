@@ -53,7 +53,7 @@ Copy [`SKILL.md`](SKILL.md) content, paste to AI, say:
 
 ## What's New in v2.0
 
-| Feature | v2.0 | v2.0 |
+| Feature | v1.0 | v2.0 |
 |---------|------|------|
 | Design clarification | ❌ | ✅ 7-round structured dialogue |
 | Design spec generation | ❌ | ✅ Full DESIGN_SPEC with CSS tokens |

@@ -24,9 +24,9 @@
 
 ## ✨ What's New in v2.0
 
-v2.0 handled requirements survey and a basic guide. v2.0 is an **architecture-level upgrade**:
+v1.0 handled requirements survey and a basic guide. v2.0 is an **architecture-level upgrade**:
 
-| v2.0 (old) | v2.0 (new) |
+| v1.0 (old) | v2.0 (new) |
 |-----------|-----------|
 | 7 requirement questions | 7 requirement questions + **7 design preference questions** |
 | No design spec | **Full DESIGN_SPEC.md** (10 sections: colors, typography, components, layout, shadows, responsive) |
