@@ -1,414 +1,144 @@
 ---
-name: vibe-coding-analyzer
-version: 2.0.0
-description: 通用 Vibe Coding 需求分析与开发指导生成工具。任何 AI 助理安装后，自动执行 7 轮客户调研 → 记忆检索 → 生成统一开发指导文档。兼容 Claude Code / Codex / Cursor / ChatGPT / Qwen 等所有 AI 助理。
-author: Hermes Agent (基于 EnzeD/vibe-coding + tukuaiai/vibe-coding-cn 方法论融合)
-compatible_with: ["claude-code", "codex", "cursor", "chatgpt", "gemini", "qwen", "hermes"]
-non_invasive: true  # 不修改、不覆盖任何已有规则文件
+name: vibe-coding-universal
+version: 3.0.0
+description: 需求到代码全流程 pipeline — 需求分析 → 7轮设计澄清 → 71套品牌参考生成精确设计规范 → 架构设计 → 任务规划 → 合并为 Build Spec 包交付 vibe coding 工具
+author: Hermes Agent
+compatible_with: [claude-code, codex, cursor, gemini, qwen, copilot, hermes]
+knowledge_base: [awesome-design-md (71 brands), spec-kit (GitHub)]
 ---
 
-# Vibe Coding 通用需求分析技能
+# Vibe Coding Universal v3.0
 
-> **设计理念**: 本技能是「自包含」的——任何 AI 助理只需加载此文件，即可自动执行完整的 Vibe Coding 需求分析与文档生成流程。
-> **非侵入性**: 仅在自己的 `.vibe/` 目录下工作，**绝不**修改、覆盖或干扰项目已有的 `.cursor/`、`.claude/`、`AGENTS.md`、`.gitignore` 等文件。
+**从模糊想法到可执行 Build Spec，6 步全流程 pipeline。**
 
----
-
-## 激活方式
-
-当用户表达以下意图时，自动激活本技能：
-- "帮我做一个 XX 项目"
-- "我想开发一个 XX"
-- "用 Vibe Coding 模式"
-- "先调研再开发"
-
-激活后，**必须先完成调研**，再进入开发。
+> 知识库: 71 套品牌 DESIGN.md + GitHub Spec Kit 标准模板
+> 输出: 符合 Spec Kit 规范的 Build Spec 包 → Claude Code / Codex / Cursor 直接消费
 
 ---
 
-## 🧠 核心工作流（4 阶段）
+## Pipeline 概览
 
 ```
-┌─────────────────────────────────────────────────┐
-│ 阶段 1: 深度调研 (Survey)                       │
-│   7 轮结构化提问 → 明确真实需求                  │
-├─────────────────────────────────────────────────┤
-│ 阶段 2: 记忆检索 (Recall)                       │
-│   搜索 .vibe/history/ 相似项目 → 复用经验/避坑  │
-├─────────────────────────────────────────────────┤
-│ 阶段 3: 文档生成 (Document)                     │
-│   生成 .vibe/guide.md 统一开发指导文档           │
-├─────────────────────────────────────────────────┤
-│ 阶段 4: 确认进入开发 (Confirm)                   │
-│   用户确认后，基于 guide.md 开始编码             │
-└─────────────────────────────────────────────────┘
+Step 1: 需求分析 → PRD
+Step 2: 设计澄清 → Design Brief（7轮结构化对话）
+Step 3: 设计规范 → DESIGN_SPEC.md（参考71套品牌设计系统）
+          ↓ 用户确认
+Step 4: 架构设计 → ARCHITECTURE.md（技术选型+数据模型+API）
+Step 5: 任务规划 → TASKS.md（按优先级分解可执行任务）
+Step 6: 合并输出 → Build Spec 包（specs/目录）
 ```
 
 ---
 
-## 📋 阶段 1: 深度调研（7 轮提问）
+## Step 2: 设计澄清（7轮结构化对话）
 
-**执行规则**:
-- 每次只问 **1 个问题**，等用户回答后再问下一个
-- 用户回答模糊时，主动追问具体细节
-- 如果用户说"随便"或"你决定"，记录为 `AI 自主决策`，并在文档中标注
-- 如果用户中途跳过某些问题，标记为 `⏭️ 跳过`，继续下一个
+**规则**: 每轮只问一个问题，用选项引导用户。
 
-### 调研模板
-
-```markdown
-### 🔵 Q1/7 — 项目概览
-"请用一句话描述你想做什么？它解决了什么问题？"
-→ 记录为: overview
-
-### 🔵 Q2/7 — 目标用户
-"谁会使用这个产品？目标用户画像是什么？"
-→ 记录为: audience
-
-### 🔵 Q3/7 — 核心功能
-"列出最核心的 3-5 个功能。哪些是必须的，哪些是锦上添花的？"
-→ 记录为: features (must-have / nice-to-have)
-
-### 🔵 Q4/7 — 技术偏好
-"有偏好的技术栈吗？（如 React/Vue/Python/Go/Flutter）如果没有，我可以推荐最适合的。"
-→ 记录为: tech_pref
-
-### 🔵 Q5/7 — UI/UX 风格
-"界面风格偏好？（如极简/暗黑模式/企业风/游戏风）有参考的产品或网站吗？"
-→ 记录为: ui_style
-
-### 🔵 Q6/7 — 部署环境
-"打算部署在哪里？（Vercel/Docker/本地/手机 App/微信小程序）"
-→ 记录为: deploy_env
-
-### 🔵 Q7/7 — 约束与边界
-"有什么特殊限制？（如：开发时间、预算、合规要求、性能要求、隐私保护）"
-→ 记录为: constraints
-```
-
-### 调研结果模板（内部记录）
-
-用户全部回答后，AI 内部整理为以下结构（无需展示给用户）：
-
-```yaml
-survey_result:
-  overview: "..."
-  audience: "..."
-  features:
-    must_have: ["...", "..."]
-    nice_to_have: ["...", "..."]
-  tech_pref: "..."
-  ui_style: "..."
-  deploy_env: "..."
-  constraints: "..."
-  survey_date: "YYYY-MM-DD HH:MM"
-  ai_decisions: "记录所有 AI 自主决策的点"
-  skipped_questions: []
-```
-
----
-
-## 🔍 阶段 2: 记忆检索
-
-**目标**: 利用历史项目经验，避免重复踩坑。
-
-**执行步骤**:
-
-1. 确保 `.vibe/` 目录存在（如果不存在则创建）
-2. 检查 `.vibe/history/` 目录下是否有历史项目
-3. 如果有历史项目，读取每个项目的 `.vibe/guide.md`，用以下规则判断相似度：
-   - 关键词重叠度（功能关键词、技术栈关键词）
-   - 业务领域相关性（同领域项目优先）
-4. 如果找到相似项目（相似度 > 40%），提取其 `lessons_learned` 和 `adjustments`
-
-**相似度判断规则**（无需代码，AI 用推理判断）:
-```
-如果新项目与历史项目满足以下任一条件，视为"相似":
-- 同领域（如都是"记账"类）
-- 核心功能重叠度 > 50%
-- 技术栈相同 + 功能类似
-- 解决了相同的核心问题
-```
-
-**如果有相似项目，在生成 guide.md 时加入**:
-```markdown
-## 💡 历史经验参考
-基于过往项目 [项目名] 的经验：
-- ✅ 成功的做法: ...
-- ❌ 踩过的坑: ...
-- 🔧 调整建议: ...
-```
-
----
-
-## 📄 阶段 3: 生成统一开发指导文档
-
-**目标**: 将所有信息整合为 **一份** `guide.md`，作为后续开发的唯一真理来源。
-
-**生成规则**:
-- 文件路径: `.vibe/guide.md`
-- **只生成这一个文件**（不是分散的多个文件）
-- 使用下方提供的模板
-- 如果存在 `.vibe/client-profile.md`，将客户偏好融入文档
-- 生成后，展示文档摘要给用户确认
-
-### guide.md 完整模板
-
-```markdown
----
-title: "[项目名称] — 开发指导文档"
-version: 1.0
-created: YYYY-MM-DD
-status: draft  # draft | confirmed | developing | done
-survey_completed: true
----
-
-# 📋 [项目名称] 开发指导文档
-
-> **一句话描述**: [从 Q1 提取]
-> **核心问题**: [从 Q1 提取]
-> **目标用户**: [从 Q2 提取]
-> **生成时间**: YYYY-MM-DD HH:MM
-
----
-
-## 1. 需求定义
-
-### 1.1 核心功能（Must Have）
-| # | 功能 | 优先级 | 描述 |
-|---|------|--------|------|
-| 1 | ... | P0 | ... |
-| 2 | ... | P0 | ... |
-
-### 1.2 锦上添花（Nice to Have）
-| # | 功能 | 优先级 | 描述 |
-|---|------|--------|------|
-| 1 | ... | P1 | ... |
-
-### 1.3 明确不做（Out of Scope）
-> 记录开发过程中明确排除的功能，避免范围蔓延。
-- (开发过程中逐步补充)
-
----
-
-## 2. 技术架构
-
-### 2.1 技术栈选型
-| 层级 | 选择 | 理由 |
+| 轮次 | 维度 | 选项 |
 |------|------|------|
-| 前端 | ... | ... |
-| 后端 | ... | ... |
-| 数据库 | ... | ... |
-| 部署 | ... | ... |
+| 1 | 项目类型 & 平台 | Web / iOS / Android / Desktop / 跨平台 |
+| 2 | 视觉风格参考 | Stripe / Linear / Airbnb / Vercel / Apple / 自定义 |
+| 3 | 色彩与氛围 | 冷色/暖色/中性。专业/温暖/科技感/极简/奢华 |
+| 4 | 排版偏好 | Sans-serif / Serif / Mono / 系统默认 |
+| 5 | 交互复杂度 | 简约 / 标准 / 复杂 |
+| 6 | 布局偏好 | 单页滚动 / 多页面 / 仪表盘 / 卡片网格 |
+| 7 | 特殊需求 | 暗色模式 / 多语言 / 无障碍 / 无 |
 
-### 2.2 项目结构
+输出: `docs/design-brief.md`
+
+---
+
+## Step 3: 设计规范生成
+
+**知识库**: 71 套品牌 DESIGN.md（排列在下方品牌分类中）
+
+### 品牌分类速查
+
+| 风格 | 品牌 |
+|------|------|
+| 精准专业/Fintech | stripe, coinbase, binance, wise, revolut |
+| 温暖友好/消费 | airbnb, uber, spotify, pinterest |
+| 极简现代/生产力 | linear-app, notion, figma, miro |
+| 科技感/DevTools | vercel, cursor, supabase, posthog |
+| 奢华高端 | apple, tesla, bmw, ferrari |
+| AI/LLM | claude, mistral-ai, cohere, elevenlabs |
+| 媒体/内容 | theverge, wired, playstation |
+
+### 自动匹配规则
+
+| 项目类型 | 自动参考品牌 |
+|---------|------------|
+| SaaS / B2B | stripe + linear-app + vercel |
+| 消费类 | airbnb + shopify + stripe |
+| 仪表盘 | posthog + stripe + clickhouse |
+| AI 工具 | claude + vercel + cursor |
+| 移动端 | airbnb + uber + linear-app |
+| 金融 | stripe + coinbase + wise |
+
+### DESIGN_SPEC.md 输出结构（10段）
+
 ```
-project/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── services/
-│   └── utils/
-├── public/
-├── tests/
-└── package.json
-```
-
-### 2.3 关键依赖
-- (列出核心 npm/pip 包)
-
----
-
-## 3. UI/UX 规范
-
-### 3.1 设计风格
-- **整体风格**: ...
-- **主色调**: ...
-- **字体**: ...
-- **组件库**: ... (如 shadcn/ui / Ant Design / Material)
-
-### 3.2 响应式要求
-- 移动端优先 / 桌面端优先 / 全平台适配
-
----
-
-## 4. 开发计划（分步执行）
-
-> **原则**: 每步 10-30 分钟可完成，完成后立即验证。
-
-| 阶段 | 任务 | 预计时间 | 状态 |
-|------|------|----------|------|
-| Phase 0 | 初始化项目骨架 | 10min | ⬜ |
-| Phase 1 | 核心功能 A | 20min | ⬜ |
-| Phase 2 | 核心功能 B | 20min | ⬜ |
-| Phase 3 | 核心功能 C | 20min | ⬜ |
-| Phase 4 | UI 完善与联调 | 30min | ⬜ |
-| Phase 5 | 测试与部署 | 20min | ⬜ |
-
----
-
-## 5. 开发约束
-
-### 5.1 铁律（不可违反）
-1. 不得基于猜测实现业务逻辑，必须与人类确认需求
-2. 不得跳过验证流程，每个功能完成后必须测试
-3. 不得触碰架构红线或绕过既有设计规范
-4. 不得在未定义数据结构前编写业务逻辑
-5. 不得一次性生成大量代码，必须分小块逐步验证
-
-### 5.2 编码规范
-- 每个函数只做一件事
-- 变量命名清晰（禁止 a, b, x 等无意义命名）
-- 每个文件顶部写一段话描述该文件的作用和上下游链路
-- 不得吞掉异常或使用空 catch 掩盖错误
-- 优先复用既有成熟库，不得自行造轮子
-
-### 5.3 特殊约束
-- [从 Q7 提取]
-
----
-
-## 6. 历史经验
-
-### 6.1 相似项目参考
-- (如有相似项目，在此记录其经验教训)
-- 如无，标注"本项目为首次开发，无历史参考"
-
-### 6.2 已知坑点
-- (基于通用 Vibe Coding 经验)
-- AI 容易幻觉不存在的 API → 使用前必须查证文档
-- 一次性生成大量代码后无法调试 → 必须分小块
-- 上下文污染导致 AI 理解偏差 → 每个新功能开独立对话或用 /compact
-
----
-
-## 7. 变更记录
-
-| 日期 | 变更内容 | 变更原因 |
-|------|----------|----------|
-| YYYY-MM-DD | 初始创建 | 调研完成 |
-
----
-
-## 8. AI 决策记录
-
-> 记录开发过程中所有 AI 自主做出的决策，供用户审查。
-
-| 决策点 | AI 选择 | 理由 | 用户确认 |
-|--------|---------|------|----------|
-| ... | ... | ... | ⏳ |
-
----
-
-*本文档由 AI 自动生成，经用户确认后生效。*
-*开发过程中，本文档是唯一的真理来源（Single Source of Truth）。*
+1. Visual Theme & Atmosphere  — 视觉氛围描述
+2. Color Palette & Roles       — 含hex、CSS变量、用途表
+3. Typography Rules            — font stack、type scale、原则
+4. Component Stylings          — Buttons/Cards/Inputs/Nav/Tags（精确CSS值）
+5. Layout Principles           — 8px grid、container、responsive grid
+6. Depth & Elevation           — shadow level table
+7. Do's and Don'ts             — 设计约束
+8. Responsive Behavior         — breakpoints + collapse策略
+9. Agent Prompt Guide          — 可直接粘贴给vibe coding工具的速查
 ```
 
 ---
 
-## 📂 目录结构（非侵入式）
-
-本技能仅在项目根目录创建以下结构：
+## Step 6: Build Spec 合并输出
 
 ```
-project/
-├── .vibe/                      # ← 本技能的工作目录（隔离的，不影响其他）
-│   ├── guide.md                # 统一开发指导文档（核心产出）
-│   ├── client-profile.md       # 客户长期偏好（跨项目复用）
-│   ├── history/                # 历史项目归档
-│   │   ├── 2026-04-21_记账app/
-│   │   │   └── guide.md        # 过往项目的开发文档
-│   │   └── ...
-│   └── session-log.md          # 当前会话的调研记录
-│
-├── ... (用户原有的项目文件)     # ← 本技能绝不触碰
-├── .gitignore                   # ← 本技能绝不修改
-├── AGENTS.md                    # ← 本技能绝不覆盖
-└── .cursor/ or .claude/        # ← 本技能绝不干扰
+{project}/specs/
+├── BUILD_SPEC.md           ← 总览入口（可直接粘贴给vibe coding工具）
+├── design/DESIGN_SPEC.md   ← 完整设计规范
+├── architecture/ARCHITECTURE.md
+├── tasks/TASKS.md
+└── constitution/CONSTITUTION.md
 ```
 
-**.gitignore 建议添加**（首次使用时如果 .gitignore 已存在，追加而非覆盖）:
+BUILD_SPEC.md 包含 "Quick Start for AI Agent" 段，可直接粘贴给 Claude Code / Codex 使用。
+
+---
+
+## 交付命令
+
 ```
-.vibe/
+Claude Code:  claude --project specs/ --instructions "Follow BUILD_SPEC.md"
+Codex:        codex exec "Build according to specs/BUILD_SPEC.md"
+Cursor:       打开项目，自动读取 BUILD_SPEC.md 和 DESIGN_SPEC.md
 ```
 
 ---
 
-## 🤖 非侵入性保证
+## 依赖 Skill
 
-本技能严格遵守以下规则，**绝不**影响项目其他规则：
+| Skill | 步骤 | 调用方式 |
+|-------|------|---------|
+| `requirements-agent` | Step 1 | delegate_task |
+| `architect-agent` | Step 4 | delegate_task |
+| `writing-plans` | Step 5 | delegate_task |
 
-| 行为 | 本技能的做法 |
-|------|-------------|
-| 创建文件 | **仅**在 `.vibe/` 目录下创建文件 |
-| 读取文件 | 优先读取 `.vibe/` 内的文件；如需要读取项目其他文件，需向用户说明 |
-| 修改文件 | **绝不**修改 `.vibe/` 外的任何文件（除非用户明确要求） |
-| 与其他 Skill 共存 | 本技能只处理需求分析阶段，**不干预**开发、测试、部署等其他阶段 |
-| IDE 规则 | 不创建/修改 `.cursor/`、`.claude/`、`AGENTS.md` 等 IDE 配置文件 |
-| .gitignore | 如文件已存在，以追加模式提醒用户手动添加 `.vibe/`，不自动写入 |
+*Step 2-3 和 Step 6 由主 Agent 直接执行。*
 
 ---
 
-## 🔄 跨项目客户画像
+## 使用示例
 
-`client-profile.md` 文件记录用户的长期偏好，跨项目复用：
-
-```markdown
-# 客户画像
-
-## 技术偏好
-- 偏好的技术栈: ...
-- 不喜欢的技术: ...
-
-## UI 偏好
-- 风格偏好: ...
-- 常用组件库: ...
-- 色彩偏好: ...
-
-## 工作习惯
-- 沟通风格: ...
-- 决策速度: ...
-- 关注重点: ...
-
-## 历史统计
-- 完成项目数: N
-- 常用技术: ...
-- 常见需求类型: ...
 ```
+用户: "我想做一个人任务管理 App"
 
-每次新项目的 guide.md 生成后，更新此文件中的统计信息。
-
----
-
-## ✅ 执行检查清单
-
-在输出 guide.md 之前，AI 必须确认：
-
-- [x] 7 轮调研是否全部完成（或用户明确跳过）
-- [x] 是否检查了 `.vibe/history/` 中的历史项目
-- [x] 如果有相似项目，是否提取了经验教训
-- [x] guide.md 是否包含所有 8 个章节
-- [x] 是否将客户偏好融入了技术选型和 UI 规范
-- [x] 是否记录了所有 AI 自主决策点
-- [x] 开发计划是否拆分为 10-30 分钟可完成的小块
-- [x] 是否向用户展示了文档摘要并请求确认
-
----
-
-## 📌 与不同 AI 助理的兼容性
-
-本技能的设计原则确保与所有主流 AI 助理兼容：
-
-| AI 助理 | 安装方式 | 兼容性说明 |
-|---------|----------|-----------|
-| **Claude Code** | 放入 `.claude/skills/` | 完全兼容，不干扰 Claude 的内置规则 |
-| **Codex CLI** | 放入项目根目录，在 prompt 中引用 | 完全兼容 |
-| **Cursor** | 放入 `.cursor/rules/` 或在对话中粘贴 | 完全兼容 |
-| **ChatGPT** | 直接粘贴内容到对话中 | 完全兼容 |
-| **Gemini** | 直接粘贴内容到对话中 | 完全兼容 |
-| **Qwen / 通义** | 直接粘贴内容到对话中 | 完全兼容 |
-| **Hermes Agent** | 通过 skill_view 加载 | 完全兼容 |
-
-**通用安装指令**（适用于任何 AI）:
-> "请加载这个 Vibe Coding 分析技能，从现在开始，当我提出开发需求时，先按照技能的流程进行调研，生成 guide.md 后再开始编码。"
-
+→ 主Agent: 加载 vibe-coding-universal
+→ Step 1: delegate_task(requirements-agent) → PRD
+→ Step 2: 7轮设计澄清 （Dark mode? → ⌗ Cards layout? → →…）
+→ Step 3: 参考 Linear+Notion DESIGN.md → 生成 DESIGN_SPEC
+→ [用户确认设计]
+→ Step 4-6: 自动完成架构→任务→合并
+→ 输出: specs/BUILD_SPEC.md
+→ 用户收到: "Build Spec ready. Paste to Claude Code to begin."
+```

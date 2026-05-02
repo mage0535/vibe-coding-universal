@@ -1,126 +1,301 @@
-# 📘 Vibe Coding Universal Analyzer (English Guide)
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-3.0.0-blue?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge">
+  <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge">
+</p>
 
-> **Target Audience**: Developers, Product Managers, and Creators who want to use AI for coding efficiently.
-> **Core Philosophy**: **Planning is everything.** Do not let the AI guess; tell it exactly what to do.
+<h1 align="center">🚀 Vibe Coding Universal v3.0</h1>
 
----
+<p align="center">
+  <strong>From vague idea → precise design spec → executable build plan.<br>
+  A complete pipeline that feeds directly into vibe coding tools.</strong>
+</p>
 
-## 🤔 Why do you need this tool?
-
-In the era of AI coding (Vibe Coding), the biggest bottleneck isn't the AI's ability to write code — **it's the AI's ability to understand your requirements.**
-
-Common pain points:
-1.  **Hallucinated Requirements**: You say "Make a Todo App", and the AI adds features you didn't ask for.
-2.  **Spaghetti Code**: Without a plan, the code structure becomes a mess after a few iterations.
-3.  **No Memory**: You have to repeat the same constraints to the AI every session.
-
-**Our Solution**:
-We encapsulated **Professional Requirement Engineering** into a simple **Dialogue Flow**.
-By answering just 7 questions, AI generates a standardized **Blueprint (`guide.md`)**.
-This blueprint can then be fed directly into Claude Code, OpenAI Codex, or Cursor to ensure high-quality code generation.
-
----
-
-## 🏗️ Layered Architecture
-
-We designed this tool to be **Lightweight, Safe, and Universal** through a layered approach:
-
-### Layer 1: Cognitive Layer (`SKILL.md`) — 🧠 The Brain
-This is the core. It requires **no code execution environment**.
-It contains:
--   **7-Round Survey Logic**: Defines exactly what the AI should ask.
--   **Documentation Templates**: Standardized formats for output.
--   **Non-Invasive Rules**: Ensures the AI never messes up your existing files.
-
-### Layer 2: Memory Layer (`vibe_memory.py`) — 💾 The Memory
-A **Zero-Dependency Python Script** (Standard Library only).
-It handles:
--   **Archiving**: Saves completed projects to `.vibe/history/`.
--   **Retrieval**: Automatically finds similar past projects to reuse lessons.
--   **Exporting**: Converts `guide.md` into `memory-bank/` format specifically for Claude Code / Codex.
-
-### Layer 3: Execution Layer (`AGENTS.md` / `memory-bank/`) — 🤖 The Hands
-Files specifically designed for the coding agents (Claude Code, Codex, etc.).
--   They don't care about the survey process.
--   They only care about the instructions in `AGENTS.md` and the plan in `memory-bank/`.
+<p align="center">
+  <a href="README_CN.md">中文文档</a> •
+  <a href="#-whats-new-in-v30">What's New</a> •
+  <a href="#-why-this-exists">Why</a> •
+  <a href="#-how-it-works">How</a> •
+  <a href="#-installation">Install</a> •
+  <a href="#-usage">Use</a>
+</p>
 
 ---
 
-## 🛠️ Installation & Usage
+## ✨ What's New in v3.0
 
-### Scenario A: I am using ChatGPT / Gemini / Qwen (Chat Interface)
+v2.0 handled requirements survey and a basic guide. v3.0 is an **architecture-level upgrade**:
 
-1.  **Copy**: Open `SKILL.md` from this repo and **Copy All**.
-2.  **Paste**: Paste it into your AI chat.
-3.  **Trigger**: Say: "**Load this skill. I want to build a [Project Name]. Start the survey.**"
-4.  **Survey**: Answer the AI's 7 questions.
-5.  **Build**: Once the `guide.md` is generated, review it and start coding.
-
-### Scenario B: I am using Claude Code / Cursor / Codex CLI (CLI Interface)
-
-1.  **Setup**: In your project root, run:
-    ```bash
-    mkdir -p .vibe
-    # Put SKILL.md and vibe_memory.py here
-    ```
-2.  **Init**: Run the memory tool:
-    ```bash
-    python3 vibe_memory.py init
-    ```
-3.  **Survey**: Open your terminal (`claude`), and ask it to read `SKILL.md`.
-4.  **Export**: After the survey is done, run:
-    ```bash
-    python3 vibe_memory.py export-claude .vibe/guide.md
-    ```
-5.  **Code**: The tool will generate `AGENTS.md` and `memory-bank/`.
-    Your AI coder will automatically pick these up and follow the plan.
+| v2.0 (old) | v3.0 (new) |
+|-----------|-----------|
+| 7 requirement questions | 7 requirement questions + **7 design preference questions** |
+| No design spec | **Full DESIGN_SPEC.md** (10 sections: colors, typography, components, layout, shadows, responsive) |
+| Single guide.md | **Multi-doc Build Spec package** (PRD + Design + Architecture + Tasks + Constitution) |
+| No references | **71 brand design systems** (Stripe, Linear, Airbnb, Apple…) |
+| Manual styling | **Precise CSS token output** – vibe coding tools can use directly |
+| — | **GitHub Spec Kit compatible** output format |
 
 ---
 
-## 📄 Output Example
+## 💡 Why This Exists
 
-After running, you will get a professional blueprint like this:
+### The Problems We Faced
 
-```markdown
-# 📋 Expense Tracker App Development Guide
+Using AI for development (Vibe Coding), we hit these recurring pain points:
 
-## 1. Requirements
-- One-liner: Minimal personal finance Web App.
-- Target: Freelancers who hate Excel.
+1. **AI-generated designs look generic** — Every output is "blue button + white card + Inter font", zero visual personality
+2. **Requirements get lost in translation** — User says "make it look nice", AI's interpretation is miles off
+3. **Design iteration hell** — User rejects first version, 10+ rounds of back-and-forth tweaking UI
+4. **Architecture ignores design constraints** — Tech decisions made without UI context, rework discovered at implementation
+5. **Vibe coding tools lack context** — Dumping a requirements doc on Claude Code still leaves too many design decisions to guess
 
-## 2. Tech Stack
-- Frontend: React + Tailwind
-- Backend: Supabase (No-ops)
+### Our Approach
 
-## 3. Implementation Plan
-- [ ] Phase 1: Init Project (npm create)
-- [ ] Phase 2: Core Features (Form + List)
-- [ ] Phase 3: Charts (Recharts)
-- [ ] Phase 4: Deploy to Vercel
+**The root problem isn't AI intelligence — it's missing structured design context.**
+
+Professional designers have Figma, Design Systems, and Moodboards. AI gets "make it pretty."
+
+So we redesigned the entire workflow:
+
+```
+Vague idea
+  → Structured PRD (confirmed requirements)
+     → 7-round design dialogue (style, color, typography, layout, interaction)
+        → Match against 71 brand design systems → generate precise DESIGN_SPEC
+           → User confirms design ONCE
+              → Tech architecture + task planning
+                 → Merge into Build Spec package
+                    → Feed to vibe coding tools
+```
+
+**Core insight: Make all design decisions BEFORE the first line of code.**
+
+---
+
+## 🔧 How It Works
+
+### 6-Step Pipeline
+
+```
+Step 1: Requirements   ──→ requirements.md
+Step 2: Design Clarify ──→ design-brief.md (7-round structured dialogue)
+Step 3: Design Specs   ──→ DESIGN_SPEC.md (matched against 71 brands)
+           ↓ User confirms
+Step 4: Architecture   ──→ architecture.md
+Step 5: Task Planning  ──→ tasks.md
+Step 6: Merge & Output ──→ specs/ directory (Build Spec package)
+```
+
+### Step 2: Design Clarification Protocol
+
+v3.0's core innovation. Structured Q&A replaces open-ended questions:
+
+| Round | Dimension | Example | Options |
+|-------|-----------|---------|---------|
+| 1 | Project type | "Web, mobile, or desktop?" | Web / iOS / Android / Desktop |
+| 2 | Visual style | "Any brand styles you like?" | Stripe / Linear / Airbnb / Vercel / Apple / Custom |
+| 3 | Color & mood | "What tone and feel?" | Cool/Warm/Neutral. Professional/Warm/Tech |
+| 4 | Typography | "Font preference?" | Sans-serif / Serif / Mono |
+| 5 | Interaction | "How complex?" | Simple / Standard / Complex |
+| 6 | Layout | "Page structure?" | Single-page / Multi-page / Dashboard / Card grid |
+| 7 | Special needs | "Dark mode? i18n?" | Dark / i18n / Accessibility / None |
+
+**One question per round. Options reduce decision fatigue.**
+
+### Step 3: Design Spec Generation
+
+Based on user's Step 2 choices, match 2-3 closest brand design systems, then generate a 10-section design specification:
+
+1. **Visual Theme** — AI reads this to understand design intent
+2. **Color Palette** — hex codes + CSS variables + usage mapping
+3. **Typography** — font stack + complete type scale table
+4. **Components** — buttons, cards, inputs, nav, tags (exact CSS values)
+5. **Layout** — 8px grid, container widths, responsive grid
+6. **Elevation** — shadow level hierarchy table
+7. **Do's & Don'ts** — design constraint checklist
+8. **Responsive** — breakpoints and collapse strategy
+9. **Agent Prompt Guide** — copy-paste ready quick reference for Claude Code
+
+### Auto-Matched Brand References
+
+| Project Type | Auto-Matched Brands |
+|-------------|-------------------|
+| SaaS / B2B | Stripe + Linear + Vercel |
+| Consumer / E-commerce | Airbnb + Shopify |
+| Dashboards | PostHog + Stripe + ClickHouse |
+| AI / LLM tools | Claude + Vercel + Cursor |
+| Mobile apps | Airbnb + Uber + Linear |
+| Fintech | Stripe + Coinbase + Wise |
+| Luxury / Premium | Apple + Tesla + BMW |
+
+---
+
+## 📦 Installation
+
+### Supported Platforms
+
+| AI Tool | Installation | Status |
+|---------|-------------|--------|
+| **Hermes Agent** | Place in `~/.hermes/skills/`, activate with `/skill vibe-coding-universal` | ✅ Native |
+| **Claude Code** | Place in `.claude/skills/` or paste SKILL.md into conversation | ✅ Supported |
+| **OpenAI Codex** | Place in `.agents/skills/` in project root | ✅ Supported |
+| **Cursor** | Copy SKILL.md to `.cursor/rules/` | ✅ Supported |
+| **GitHub Copilot** | Reference in `.github/copilot-instructions.md` | ✅ Supported |
+| **Gemini CLI** | Copy SKILL.md to project root | ✅ Supported |
+| **Any AI assistant** | Paste SKILL.md content directly into conversation | ✅ Universal |
+
+### Option 1: Git Clone (Recommended — Full Knowledge Base)
+
+```bash
+git clone https://github.com/magicwe/vibe-coding-universal.git ~/.vibe-universal
+
+# For Hermes Agent
+ln -s ~/.vibe-universal ~/.hermes/skills/vibe-coding-universal
+
+# Verify
+hermes skills list | grep vibe
+```
+
+### Option 2: Skill File Only (Lightweight)
+
+```bash
+# Download SKILL.md
+curl -o ~/.hermes/skills/vibe-coding-universal/SKILL.md \
+  https://raw.githubusercontent.com/magicwe/vibe-coding-universal/main/SKILL.md
+
+# For Claude Code, copy to project
+cp SKILL.md .claude/skills/vibe-coding-universal.md
+```
+
+### Option 3: Hermes Skill Market
+
+```bash
+hermes skills search vibe-coding-universal
+hermes skills install vibe-coding-universal
+```
+
+### Requirements
+
+- **Hermes Agent**: v1.0+ (supports skill_view and delegate_task)
+- **Claude Code / Codex / Cursor**: any version
+- **Dependencies**: `requirements-agent`, `architect-agent`, `writing-plans` (auto-available in Hermes)
+- **Zero npm/pip dependencies** — the entire tool is SKILL.md files.
+
+### Optional: Download Design Knowledge Base
+
+```bash
+# 71 brand DESIGN.md references (67.8k Stars)
+git clone --depth 1 https://github.com/VoltAgent/awesome-design-md.git \
+  ~/.vibe-universal/awesome-design-md
+
+# GitHub Spec Kit templates (official spec/plan/tasks format)
+git clone --depth 1 https://github.com/github/spec-kit.git \
+  ~/.vibe-universal/spec-kit
 ```
 
 ---
 
-## 🙏 Acknowledgements & Inspiration
+## 🚀 Usage
 
-This project stands on the shoulders of giants. We deeply appreciate the following open-source projects:
+### Full Pipeline (Start From Scratch)
 
-### 1. Architecture & Standards
-- **[EnzeD/vibe-coding](https://github.com/EnzeD/vibe-coding)**: 
-  - **Contribution**: Provided the foundational concept of Memory Bank and the AGENTS.md pattern.
-  - **Thanks**: To Nicolas Zullo for defining the Vibe Coding workflow.
+```bash
+# In Hermes Agent
+/skill vibe-coding-universal
 
-### 2. Methodology & Localization
-- **[tukuaiai/vibe-coding-cn](https://github.com/tukuaiai/vibe-coding-cn)**:
-  - **Contribution**: Provided the excellent "4-Stage x 12-Principle" methodology and practical pitfall guides.
-  - **Thanks**: To the developer for their dedication to the Chinese Vibe Coding community.
+# Then tell AI:
+"I want to build a team knowledge base product, like Notion but lighter"
+```
 
-### 3. Unique Optimizations (What we added)
-Based on these inspirations, we added:
-- ✅ **Universality**: Removed IDE-specific dependencies. Now it's a pure text `SKILL.md` that works everywhere.
-- ✅ **Zero-Dependency Memory**: Created `vibe_memory.py` using only Python stdlib. No `pip install` needed.
-- ✅ **Automated Export**: Added `export-claude` to bridge the gap between "Requirements" and "Code Generation".
+The AI will automatically:
+1. Call requirements-agent to produce PRD
+2. Launch 7-round design clarification dialogue
+3. Match Linear + Notion design systems, generate DESIGN_SPEC
+4. Wait for your design confirmation
+5. Auto-complete architecture + task planning
+6. Output complete Build Spec package
+
+### Quick Mode (Skip Design Clarification)
+
+If you already have clear ideas:
+
+```
+"Build me a React + Express todo app. Dark theme, Linear-style."
+```
+
+AI auto-matches brand refs (Linear), skips the 7-round dialogue, generates everything directly.
+
+### Design-Only Mode (PRD Already Exists)
+
+```
+"I have a PRD at docs/requirements.md. Generate design specs."
+```
+
+AI skips Step 1, goes directly to Steps 2-3 for design specs.
+
+### Output
+
+You'll get a `specs/` directory:
+
+```
+specs/
+├── BUILD_SPEC.md           ← Main entry (paste directly to vibe coding tools)
+├── design/DESIGN_SPEC.md   ← Full design system (CSS token ready)
+├── architecture/ARCHITECTURE.md
+├── tasks/TASKS.md
+└── constitution/CONSTITUTION.md
+```
+
+Then feed to your vibe coding tool:
+
+```bash
+# Claude Code
+claude --project specs/ --instructions "Follow BUILD_SPEC.md"
+
+# Codex
+codex exec "Build according to specs/BUILD_SPEC.md"
+
+# Cursor
+# Open the project — BUILD_SPEC.md and DESIGN_SPEC.md are auto-detected as context
+```
 
 ---
 
-**Ready to Vibe Code better?** 🚀
+## 🙏 Acknowledgements
+
+This project stands on the shoulders of these open-source giants:
+
+| Project | Contribution |
+|---------|-------------|
+| **[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)** (67.8k ⭐) | 71 brand DESIGN.md files for precise design reference |
+| **[nexu-io/open-design](https://github.com/nexu-io/open-design)** (11.8k ⭐) | 129 design systems + 31 skill templates, inspired pipeline architecture |
+| **[github/spec-kit](https://github.com/github/spec-kit)** | Spec-Driven Development methodology and templates |
+| **[EnzeD/vibe-coding](https://github.com/EnzeD/vibe-coding)** | Memory Bank architecture foundation |
+| **[tukuaiai/vibe-coding-cn](https://github.com/tukuaiai/vibe-coding-cn)** | Four-phase methodology and Chinese localization |
+| **[alexpate/awesome-design-systems](https://github.com/alexpate/awesome-design-systems)** | Enterprise design system index |
+| **[W3C Design Tokens CG](https://www.w3.org/community/design-tokens/)** | Design token specification standard |
+
+---
+
+## 📂 Project Structure
+
+```
+vibe-coding-universal/
+├── SKILL.md                     ← Core file (v3.0 unified entry)
+├── README.md                    ← This file
+├── CHANGELOG.md                 ← Version history
+├── v1/                          ← Archived old versions (v2.0 and earlier)
+│   ├── SKILL.md                 # Old core logic
+│   ├── vibe_memory.py           # Old memory manager
+│   └── README_*.md              # Old docs
+├── design-systems/              ← Design system knowledge base (optional)
+│   └── (awesome-design-md: 71 DESIGN.md files)
+└── templates/                   ← Spec Kit standard templates
+    └── (spec-kit templates)
+```
+
+---
+
+<p align="center">
+  <em>Built for developers tired of generic AI-generated UI.</em>
+</p>
